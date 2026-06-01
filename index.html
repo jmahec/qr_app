@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Carné Digital CIANDCO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<div class="device" id="app">
+
+  <!-- ═══════════════════════════════════════
+       1. SPLASH SCREEN
+  ═══════════════════════════════════════ -->
+  <div class="screen active" id="splash">
+    <div class="status-bar dark">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M1 6s4-4 11-4 11 4 11 4M5 10s2.5-2.5 7-2.5S19 10 19 10M9 14s1.5-1.5 3-1.5 3 1.5 3 1.5M12 18h.01"/>
+        </svg>
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <rect x="2" y="7" width="20" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+          <rect x="2" y="7" width="14" height="11" rx="2"/>
+        </svg>
+      </div>
+    </div>
+    <div class="splash-bg"></div>
+    <div class="splash-grid"></div>
+    <div class="splash-content">
+      <div class="splash-logo-ring">
+        <div class="splash-logo-inner">
+          <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="6" width="28" height="36" rx="5" stroke="white" stroke-width="2"/>
+            <circle cx="20" cy="18" r="6" stroke="white" stroke-width="2"/>
+            <path d="M10 36c0-5.5 4.5-8 10-8s10 2.5 10 8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <rect x="30" y="20" width="16" height="16" rx="3" fill="white" fill-opacity=".15" stroke="white" stroke-width="2"/>
+            <path d="M33 28l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M38 14h6M38 17h4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="splash-brand">
+        <h1>Carné <span>Digital</span></h1>
+        <p>CIANDCO · Sistema de Acceso</p>
+      </div>
+      <div class="splash-dots">
+        <div class="splash-dot"></div>
+        <div class="splash-dot"></div>
+        <div class="splash-dot"></div>
+      </div>
+    </div>
+    <span class="splash-version">v1.0.0 · 2025</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       2. LOGIN
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="login">
+    <div class="login-top">
+      <div class="login-top-bg"></div>
+      <div class="login-top-grid"></div>
+      <div class="login-logo">
+        <div class="login-logo-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8">
+            <rect x="3" y="3" width="13" height="17" rx="2.5"/>
+            <circle cx="9" cy="9" r="2.5"/>
+            <path d="M5 16c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5"/>
+            <rect x="14" y="9" width="7" height="7" rx="1.5"/>
+            <path d="M16 13l1.5 1.5 3-3" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="login-logo-text">
+          <strong>Carné Digital</strong>
+          <span>CIANDCO</span>
+        </div>
+      </div>
+      <div class="login-headline">
+        <h2>Bienvenido<br>de vuelta </h2>
+        <p>Ingresa con tus credenciales institucionales</p>
+      </div>
+    </div>
+
+    <div class="login-form-wrap">
+      <div style="font-size:12px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;font-family:var(--font-head);">
+        Selecciona tu rol
+      </div>
+      <div class="login-roles">
+        <div class="role-chip active" onclick="selectRole(this,'estudiante')">
+          <span class="role-icon">🎓</span>
+          Estudiante
+        </div>
+        <div class="role-chip" onclick="selectRole(this,'vigilante')">
+          <span class="role-icon">🔐</span>
+          Vigilante
+        </div>
+        <div class="role-chip" onclick="selectRole(this,'admin')">
+          <span class="role-icon">⚙️</span>
+          Admin
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Correo institucional</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M2 7l10 7 10-7"/>
+          </svg>
+          <input type="email" placeholder="usuario@ciandco.edu.co" id="login-email">
+        </div>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Contraseña</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          <input type="password" placeholder="••••••••" id="login-pass">
+        </div>
+      </div>
+      <div class="forgot-link"><a href="#">¿Olvidaste tu contraseña?</a></div>
+
+      <button class="btn btn-primary" onclick="doLogin()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+          <polyline points="10 17 15 12 10 7"/>
+          <line x1="15" y1="12" x2="3" y2="12"/>
+        </svg>
+        Iniciar Sesión
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       3. DASHBOARD ESTUDIANTE
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="dashboard">
+    <div class="status-bar dark" style="position:absolute;top:0;left:0;right:0;z-index:10;">
+      <span class="status-time">9:41</span>
+      <div class="status-icons" style="color:white;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+          <path d="M1 6s4-4 11-4 11 4 11 4"/><path d="M5 10s2.5-2.5 7-2.5S19 10 19 10"/>
+          <path d="M9 14s1.5-1.5 3-1.5 3 1.5 3 1.5"/><circle cx="12" cy="18" r=".5" fill="white"/>
+        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+          <rect x="2" y="7" width="20" height="11" rx="2"/>
+          <rect x="2" y="7" width="14" height="11" rx="2" fill="currentColor"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="scroll-content">
+      <div class="dash-header">
+        <div class="dash-header-bg"></div>
+        <div class="dash-header-grid"></div>
+        <div class="dash-header-content">
+          <div class="dash-greeting">
+            <div class="dash-greeting-text">
+              <p>Buenos días</p>
+              <h2>Julian Mahecha 👋</h2>
+            </div>
+            <div class="notif-btn" onclick="showScreen('historial')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+              <div class="notif-dot"></div>
+            </div>
+          </div>
+          <div class="student-card-preview" onclick="showScreen('carne')">
+            <div class="student-avatar" style="display:flex;align-items:center;justify-content:center;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5">
+                <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              </svg>
+            </div>
+            <div class="student-info-preview">
+              <h3>Julian M. Mahecha</h3>
+              <p>Des. Aplicaciones Móviles · ITM</p>
+              <div class="badges">
+                <span class="badge badge-success"><span class="badge-dot"></span>Activo</span>
+                <span class="badge badge-info">2025-1</span>
+              </div>
+            </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2.5">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-stats">
+        <div class="stat-mini">
+          <div class="val">24</div>
+          <div class="lbl">Ingresos</div>
+        </div>
+        <div class="stat-mini">
+          <div class="val" style="color:var(--green-600)">OK</div>
+          <div class="lbl">Estado QR</div>
+        </div>
+        <div class="stat-mini">
+          <div class="val">12d</div>
+          <div class="lbl">Vigencia</div>
+        </div>
+      </div>
+
+      <div style="padding:0 24px 8px;">
+        <div style="font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">
+          Accesos rápidos
+        </div>
+      </div>
+      <div class="dash-quick-grid">
+        <div class="quick-card" onclick="showScreen('carne')">
+          <div class="quick-icon blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <rect x="2" y="5" width="20" height="14" rx="2"/>
+              <circle cx="9" cy="10" r="2"/>
+              <path d="M5 17c0-2 1.5-3 4-3s4 1 4 3"/>
+              <line x1="15" y1="10" x2="19" y2="10"/>
+              <line x1="15" y1="13" x2="17" y2="13"/>
+            </svg>
+          </div>
+          <div>
+            <div class="quick-label">Ver Carné</div>
+            <div class="quick-sub">Tarjeta digital</div>
+          </div>
+        </div>
+        <div class="quick-card" onclick="showScreen('qr-screen')">
+          <div class="quick-icon green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <rect x="3" y="3" width="8" height="8" rx="1"/>
+              <rect x="3" y="13" width="8" height="8" rx="1"/>
+              <rect x="13" y="3" width="8" height="8" rx="1"/>
+              <rect x="5" y="5" width="4" height="4" fill="currentColor" stroke="none"/>
+              <rect x="5" y="15" width="4" height="4" fill="currentColor" stroke="none"/>
+              <rect x="15" y="5" width="4" height="4" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <div>
+            <div class="quick-label">Generar QR</div>
+            <div class="quick-sub">Código seguro</div>
+          </div>
+        </div>
+        <div class="quick-card" onclick="showScreen('historial')">
+          <div class="quick-icon amber">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div>
+            <div class="quick-label">Historial</div>
+            <div class="quick-sub">Mis accesos</div>
+          </div>
+        </div>
+        <div class="quick-card" onclick="showScreen('perfil')">
+          <div class="quick-icon gray">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+          </div>
+          <div>
+            <div class="quick-label">Perfil</div>
+            <div class="quick-sub">Mis datos</div>
+          </div>
+        </div>
+      </div>
+      <div style="height:20px;"></div>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-item active" onclick="showScreen('dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Inicio</span>
+      </button>
+      <button class="nav-item" onclick="showScreen('carne')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M5 17c0-2 1.5-3 4-3s4 1 4 3"/></svg>
+        <span>Carné</span>
+      </button>
+      <button class="nav-item" onclick="showScreen('qr-screen')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="5" y="5" width="4" height="4" fill="currentColor" stroke="none"/><rect x="15" y="5" width="4" height="4" fill="currentColor" stroke="none"/><rect x="5" y="15" width="4" height="4" fill="currentColor" stroke="none"/></svg>
+        <span>QR</span>
+      </button>
+      <button class="nav-item" onclick="showScreen('historial')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Historial</span>
+      </button>
+      <button class="nav-item" onclick="showScreen('perfil')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span>Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       4. CARNÉ DIGITAL
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="carne">
+    <div class="status-bar light">
+      <span class="status-time">9:41</span>
+    </div>
+    <div class="scroll-content">
+      <div class="page-header">
+        <button class="back-btn" onclick="showScreen('dashboard')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"/></svg>
+          Inicio
+        </button>
+        <div class="page-title" style="margin-top:6px;">Mi Carné Digital</div>
+        <div class="page-subtitle">Toca el carné para ver el QR</div>
+      </div>
+      <div class="carne-scroll">
+        <div class="id-card" onclick="showScreen('qr-screen')">
+          <div class="id-card-bg"></div>
+          <div class="id-card-pattern"></div>
+          <div class="id-card-pattern2"></div>
+          <div class="id-card-content">
+            <div class="id-card-header">
+              <div class="id-card-brand">
+                <div class="id-brand-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8">
+                    <rect x="3" y="3" width="11" height="15" rx="2"/>
+                    <circle cx="8" cy="9" r="2.5"/>
+                    <path d="M4 15c0-2 1.8-3 4-3s4 1 4 3"/>
+                    <path d="M15 8h5M15 11h3"/>
+                  </svg>
+                </div>
+                <span>CIANDCO</span>
+              </div>
+              <div class="id-card-type">Carné Digital</div>
+            </div>
+            <div class="id-card-photo-row">
+              <div class="id-photo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5">
+                  <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                </svg>
+              </div>
+              <div class="id-card-details">
+                <h3>Julian Mateo<br>Mahecha Calderón</h3>
+                <div class="id-code"># 2025-ITM-00847</div>
+                <div class="id-programa">Tecnólogo en Desarrollo<br>de Aplicaciones Móviles</div>
+              </div>
+            </div>
+            <div class="id-card-footer">
+              <div class="id-field">
+                <div class="field-label">Semestre</div>
+                <div class="field-val">IV · 2025-1</div>
+              </div>
+              <div class="id-field">
+                <div class="field-label">Estado</div>
+                <div class="field-val" style="color:var(--green-500);">● Vigente</div>
+              </div>
+              <div class="id-field">
+                <div class="field-label">Vence</div>
+                <div class="field-val">30 Jun 2025</div>
+              </div>
+            </div>
+          </div>
+          <div class="id-card-stripe"></div>
+        </div>
+
+        <div class="carne-actions">
+          <button class="btn btn-primary" onclick="showScreen('qr-screen')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/>
+              <rect x="3" y="13" width="8" height="8" rx="1"/>
+              <rect x="5" y="5" width="4" height="4" fill="white" stroke="none"/>
+              <rect x="15" y="5" width="4" height="4" fill="white" stroke="none"/>
+              <rect x="5" y="15" width="4" height="4" fill="white" stroke="none"/>
+            </svg>
+            Mostrar QR de Acceso
+          </button>
+          <button class="btn btn-outline">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Descargar Carné PDF
+          </button>
+        </div>
+
+        <div class="card" style="margin-top:14px;">
+          <div style="font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--gray-700);margin-bottom:12px;">Información del Carné</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:12px;color:var(--gray-500);">Fecha de emisión</span>
+              <span style="font-size:13px;font-weight:600;color:var(--gray-800);font-family:var(--font-head);">15 Ene 2025</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:12px;color:var(--gray-500);">Fecha de vencimiento</span>
+              <span style="font-size:13px;font-weight:600;color:var(--gray-800);font-family:var(--font-head);">30 Jun 2025</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:12px;color:var(--gray-500);">Estado</span>
+              <span class="badge badge-success"><span class="badge-dot"></span>Vigente</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:12px;color:var(--gray-500);">Institución</span>
+              <span style="font-size:13px;font-weight:600;color:var(--gray-800);font-family:var(--font-head);">ITM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <button class="nav-item" onclick="showScreen('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Inicio</span></button>
+      <button class="nav-item active" onclick="showScreen('carne')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M5 17c0-2 1.5-3 4-3s4 1 4 3"/></svg><span>Carné</span></button>
+      <button class="nav-item" onclick="showScreen('qr-screen')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="5" y="5" width="4" height="4" fill="currentColor" stroke="none"/><rect x="15" y="5" width="4" height="4" fill="currentColor" stroke="none"/><rect x="5" y="15" width="4" height="4" fill="currentColor" stroke="none"/></svg><span>QR</span></button>
+      <button class="nav-item" onclick="showScreen('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Historial</span></button>
+      <button class="nav-item" onclick="showScreen('perfil')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Perfil</span></button>
+    </nav>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       5. QR DINÁMICO
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="qr-screen">
+    <div class="status-bar light">
+      <span class="status-time">9:41</span>
+    </div>
+    <div class="scroll-content">
+      <div class="page-header">
+        <button class="back-btn" onclick="showScreen('carne')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"/></svg>
+          Carné
+        </button>
+        <div class="page-title" style="margin-top:6px;">Código QR de Acceso</div>
+        <div class="page-subtitle">Muéstralo al vigilante para ingresar</div>
+      </div>
+      <div class="qr-content">
+        <div class="qr-box">
+          <div class="qr-header-info">
+            <h3>Julian Mahecha · #2025-00847</h3>
+            <p>Código seguro generado en tiempo real</p>
+          </div>
+          <div id="qr-container">
+            <div id="qrcode"></div>
+            <div class="qr-expired-overlay" id="qr-expired-overlay">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <span>QR Expirado</span>
+            </div>
+          </div>
+          <div class="qr-timer-ring">
+            <svg width="80" height="80" viewBox="0 0 80 80">
+              <circle class="track"    cx="40" cy="40" r="36"/>
+              <circle class="progress" id="qr-progress" cx="40" cy="40" r="36"/>
+            </svg>
+            <div class="qr-timer-text">
+              <span class="seconds" id="qr-seconds">30</span>
+              <span class="label">seg</span>
+            </div>
+          </div>
+          <div class="qr-secure-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span>Código seguro de acceso</span>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="regen-btn" onclick="regenQR()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="23 4 23 10 17 10"/>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg>
+          Regenerar QR
+        </button>
+        <div style="margin-top:12px;text-align:center;font-size:12px;color:var(--gray-500);">
+          Cada código expira en 30 segundos por seguridad
+        </div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <button class="nav-item" onclick="showScreen('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Inicio</span></button>
+      <button class="nav-item" onclick="showScreen('carne')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M5 17c0-2 1.5-3 4-3s4 1 4 3"/></svg><span>Carné</span></button>
+      <button class="nav-item active" onclick="showScreen('qr-screen')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="5" y="5" width="4" height="4" fill="currentColor" stroke="none"/><rect x="15" y="5" width="4" height="4" fill="currentColor" stroke="none"/><rect x="5" y="15" width="4" height="4" fill="currentColor" stroke="none"/></svg><span>QR</span></button>
+      <button class="nav-item" onclick="showScreen('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Historial</span></button>
+      <button class="nav-item" onclick="showScreen('perfil')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Perfil</span></button>
+    </nav>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       6. HISTORIAL
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="historial">
+    <div class="status-bar light"><span class="status-time">9:41</span></div>
+    <div class="scroll-content">
+      <div class="page-header">
+        <button class="back-btn" onclick="showScreen('dashboard')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"/></svg>
+          Inicio
+        </button>
+        <div class="page-title" style="margin-top:6px;">Historial de Accesos</div>
+        <div class="page-subtitle">Registro de entradas y salidas</div>
+      </div>
+      <div class="historial-content">
+        <div class="historial-filter">
+          <div class="filter-chip active">Todos</div>
+          <div class="filter-chip">Permitidos</div>
+          <div class="filter-chip">Denegados</div>
+          <div class="filter-chip">Esta semana</div>
+        </div>
+        <div class="access-list">
+          <div style="font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.08em;margin:4px 0 8px;">Hoy — 30 May 2025</div>
+          <div class="access-item">
+            <div class="access-icon in"><svg viewBox="0 0 24 24"><polyline points="17 11 12 6 7 11"/><line x1="12" y1="6" x2="12" y2="18"/></svg></div>
+            <div class="access-info"><h4>Ingreso · Sede Principal</h4><p>Bloque A · Portería Norte · QR</p></div>
+            <div><div class="access-time">08:47</div><div class="badge badge-success" style="margin-top:4px;font-size:10px;">Permitido</div></div>
+          </div>
+          <div class="access-item">
+            <div class="access-icon out"><svg viewBox="0 0 24 24"><polyline points="7 13 12 18 17 13"/><line x1="12" y1="18" x2="12" y2="6"/></svg></div>
+            <div class="access-info"><h4>Salida · Sede Principal</h4><p>Portería Norte · QR</p></div>
+            <div><div class="access-time">12:30</div><div class="badge badge-info" style="margin-top:4px;font-size:10px;">Salida</div></div>
+          </div>
+          <div style="font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.08em;margin:12px 0 8px;">Ayer — 29 May 2025</div>
+          <div class="access-item">
+            <div class="access-icon in"><svg viewBox="0 0 24 24"><polyline points="17 11 12 6 7 11"/><line x1="12" y1="6" x2="12" y2="18"/></svg></div>
+            <div class="access-info"><h4>Ingreso · Sede Principal</h4><p>Portería Norte · QR</p></div>
+            <div><div class="access-time">07:55</div><div class="badge badge-success" style="margin-top:4px;font-size:10px;">Permitido</div></div>
+          </div>
+          <div class="access-item">
+            <div class="access-icon denied"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+            <div class="access-info"><h4>Intento denegado</h4><p>Portería Sur · QR expirado</p></div>
+            <div><div class="access-time">18:02</div><div class="badge badge-danger" style="margin-top:4px;font-size:10px;">Denegado</div></div>
+          </div>
+          <div class="access-item">
+            <div class="access-icon in"><svg viewBox="0 0 24 24"><polyline points="17 11 12 6 7 11"/><line x1="12" y1="6" x2="12" y2="18"/></svg></div>
+            <div class="access-info"><h4>Ingreso · Sede Principal</h4><p>Portería Sur · Manual</p></div>
+            <div><div class="access-time">18:10</div><div class="badge badge-warning" style="margin-top:4px;font-size:10px;">Manual</div></div>
+          </div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <button class="nav-item" onclick="showScreen('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Inicio</span></button>
+      <button class="nav-item" onclick="showScreen('carne')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M5 17c0-2 1.5-3 4-3s4 1 4 3"/></svg><span>Carné</span></button>
+      <button class="nav-item" onclick="showScreen('qr-screen')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="5" y="5" width="4" height="4" fill="currentColor" stroke="none"/><rect x="15" y="5" width="4" height="4" fill="currentColor" stroke="none"/><rect x="5" y="15" width="4" height="4" fill="currentColor" stroke="none"/></svg><span>QR</span></button>
+      <button class="nav-item active" onclick="showScreen('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Historial</span></button>
+      <button class="nav-item" onclick="showScreen('perfil')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Perfil</span></button>
+    </nav>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       7. PERFIL
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="perfil">
+    <div class="status-bar dark" style="position:absolute;top:0;left:0;right:0;z-index:10;">
+      <span class="status-time">9:41</span>
+    </div>
+    <div class="scroll-content">
+      <div class="perfil-header">
+        <div class="perfil-header-bg"></div>
+        <div style="height:44px;"></div>
+        <div style="display:flex;justify-content:center;position:relative;z-index:1;">
+          <div class="perfil-avatar-wrap">
+            <div class="perfil-avatar">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            </div>
+            <div class="perfil-avatar-edit">
+              <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="perfil-name">Julian Mateo Mahecha C.</div>
+        <div class="perfil-role">Estudiante · Tecnólogo Móviles · ITM</div>
+      </div>
+      <div class="perfil-body">
+        <div class="perfil-card">
+          <div class="perfil-section-title">Datos personales</div>
+          <div class="perfil-row">
+            <div class="perfil-row-icon blue"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg></div>
+            <div class="perfil-row-label"><div class="row-title">Correo</div><div class="row-sub">julian.mahecha@itm.edu.co</div></div>
+            <div class="perfil-row-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+          <div class="perfil-row">
+            <div class="perfil-row-icon blue"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M5 17c0-2 1.5-3 4-3s4 1 4 3"/></svg></div>
+            <div class="perfil-row-label"><div class="row-title">Código estudiantil</div><div class="row-sub">#2025-ITM-00847</div></div>
+            <div class="perfil-row-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+          <div class="perfil-row">
+            <div class="perfil-row-icon blue"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 5.52 5.52l.88-.88a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg></div>
+            <div class="perfil-row-label"><div class="row-title">Teléfono</div><div class="row-sub">+57 314 567 8901</div></div>
+            <div class="perfil-row-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+        </div>
+        <div class="perfil-card">
+          <div class="perfil-section-title">Seguridad</div>
+          <div class="perfil-row">
+            <div class="perfil-row-icon gray"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+            <div class="perfil-row-label"><div class="row-title">Cambiar contraseña</div><div class="row-sub">Última vez hace 30 días</div></div>
+            <div class="perfil-row-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+          <div class="perfil-row">
+            <div class="perfil-row-icon gray"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div class="perfil-row-label"><div class="row-title">Autenticación 2FA</div><div class="row-sub">No configurada</div></div>
+            <div class="perfil-row-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+        </div>
+        <div class="perfil-card">
+          <div class="perfil-row" onclick="showScreen('login')">
+            <div class="perfil-row-icon red"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+            <div class="perfil-row-label"><div class="row-title" style="color:var(--red-600);">Cerrar sesión</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <button class="nav-item" onclick="showScreen('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Inicio</span></button>
+      <button class="nav-item" onclick="showScreen('carne')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M5 17c0-2 1.5-3 4-3s4 1 4 3"/></svg><span>Carné</span></button>
+      <button class="nav-item" onclick="showScreen('qr-screen')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="5" y="5" width="4" height="4" fill="currentColor" stroke="none"/><rect x="15" y="5" width="4" height="4" fill="currentColor" stroke="none"/><rect x="5" y="15" width="4" height="4" fill="currentColor" stroke="none"/></svg><span>QR</span></button>
+      <button class="nav-item" onclick="showScreen('historial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Historial</span></button>
+      <button class="nav-item active" onclick="showScreen('perfil')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Perfil</span></button>
+    </nav>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       8. PANEL VIGILANTE
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="vigilante">
+    <div class="status-bar dark">
+      <span class="status-time">9:41</span>
+      <div class="status-icons" style="color:rgba(255,255,255,.7);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M1 6s4-4 11-4 11 4 11 4"/><path d="M5 10s2.5-2.5 7-2.5S19 10 19 10"/><circle cx="12" cy="15" r=".5" fill="white"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="2" y="7" width="20" height="11" rx="2"/><rect x="2" y="7" width="16" height="11" rx="2" fill="currentColor"/></svg>
+      </div>
+    </div>
+    <div class="vigilante-content">
+      <div style="padding:8px 20px 14px;background:var(--gray-900);">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-family:var(--font-head);font-size:16px;font-weight:700;color:white;">Panel Vigilante</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:1px;">Carlos Ríos · Portería Norte</div>
+          </div>
+          <button onclick="showScreen('login')" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:7px 12px;color:rgba(255,255,255,.6);font-size:12px;cursor:pointer;font-family:var(--font-head);font-weight:600;">Salir</button>
+        </div>
+      </div>
+      <div class="scanner-area">
+        <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.01) 0px,rgba(255,255,255,.01) 1px,transparent 1px,transparent 40px),repeating-linear-gradient(90deg,rgba(255,255,255,.01) 0px,rgba(255,255,255,.01) 1px,transparent 1px,transparent 40px);"></div>
+        <div class="scanner-overlay">
+          <div class="scanner-frame">
+            <div class="scanner-corner tl"></div>
+            <div class="scanner-corner tr"></div>
+            <div class="scanner-corner bl"></div>
+            <div class="scanner-corner br"></div>
+            <div class="scanner-line"></div>
+          </div>
+        </div>
+        <div class="scanner-instruction"><p>Apunta la cámara al código QR</p></div>
+      </div>
+      <div class="scanner-status-bar">
+        <div class="scan-result idle" id="scan-result-box">
+          <div class="scan-result-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="5" y="5" width="4" height="4" fill="currentColor" stroke="none"/><rect x="15" y="5" width="4" height="4" fill="currentColor" stroke="none"/><rect x="5" y="15" width="4" height="4" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <div class="scan-result-text">
+            <h4 id="scan-title">Esperando escaneo</h4>
+            <p  id="scan-sub">Apunta la cámara al QR del estudiante</p>
+          </div>
+        </div>
+      </div>
+      <div class="vigilante-controls">
+        <button class="btn btn-scan" onclick="simulateScan()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="5" y="5" width="4" height="4" fill="white" stroke="none"/><rect x="15" y="5" width="4" height="4" fill="white" stroke="none"/><rect x="5" y="15" width="4" height="4" fill="white" stroke="none"/></svg>
+          Simular Escaneo
+        </button>
+        <button class="btn btn-manual">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Manual
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       9. PANEL ADMINISTRADOR
+  ═══════════════════════════════════════ -->
+  <div class="screen" id="admin">
+    <div class="status-bar dark" style="position:absolute;top:0;left:0;right:0;z-index:10;">
+      <span class="status-time">9:41</span>
+    </div>
+    <div class="scroll-content">
+      <div class="admin-header">
+        <div class="admin-header-bg"></div>
+        <div class="admin-header-content">
+          <div style="height:44px;"></div>
+          <div class="admin-top">
+            <div>
+              <div class="admin-title">Panel Admin</div>
+              <div class="admin-sub">CIANDCO · Sistema de Acceso</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div class="admin-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+              <button onclick="showScreen('login')" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:7px 12px;color:rgba(255,255,255,.5);font-size:12px;cursor:pointer;font-family:var(--font-head);font-weight:600;">Salir</button>
+            </div>
+          </div>
+          <div class="admin-stats-row">
+            <div class="admin-stat"><div class="a-val">847</div><div class="a-lbl">Usuarios</div><div class="a-trend">↑ +12</div></div>
+            <div class="admin-stat"><div class="a-val">134</div><div class="a-lbl">Hoy</div><div class="a-trend">↑ +8%</div></div>
+            <div class="admin-stat"><div class="a-val">6</div><div class="a-lbl">Negados</div><div class="a-trend" style="color:var(--red-600);">↑ 2</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-body">
+        <div class="admin-section">
+          <div class="admin-section-title">Ingresos esta semana</div>
+          <div class="admin-chart-card">
+            <div class="admin-chart-title">Ingresos diarios</div>
+            <div class="bar-chart">
+              <div class="bar-item"><div class="bar blue" style="height:55px;"></div><span>L</span></div>
+              <div class="bar-item"><div class="bar blue" style="height:70px;"></div><span>M</span></div>
+              <div class="bar-item"><div class="bar blue" style="height:48px;"></div><span>X</span></div>
+              <div class="bar-item"><div class="bar blue" style="height:80px;"></div><span>J</span></div>
+              <div class="bar-item"><div class="bar green" style="height:65px;"></div><span>V</span></div>
+              <div class="bar-item"><div class="bar" style="height:20px;background:var(--gray-200);"></div><span>S</span></div>
+              <div class="bar-item"><div class="bar" style="height:10px;background:var(--gray-200);"></div><span>D</span></div>
+            </div>
+            <div style="display:flex;gap:12px;margin-top:10px;">
+              <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--gray-500);"><div style="width:10px;height:10px;border-radius:3px;background:var(--blue-500);"></div>Días laborales</div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--gray-500);"><div style="width:10px;height:10px;border-radius:3px;background:var(--green-500);"></div>Hoy</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-section">
+          <div class="admin-section-title">Gestión</div>
+          <div class="admin-actions-grid">
+            <div class="admin-action"><div class="action-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="action-label">Estudiantes</div><div class="action-sub">847 activos</div></div>
+            <div class="admin-action"><div class="action-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M5 17c0-2 1.5-3 4-3s4 1 4 3"/></svg></div><div class="action-label">Carnés</div><div class="action-sub">820 vigentes</div></div>
+            <div class="admin-action"><div class="action-icon amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div class="action-label">Reportes</div><div class="action-sub">Exportar CSV</div></div>
+            <div class="admin-action" onclick="showScreen('vigilante')"><div class="action-icon gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="action-label">Vigilantes</div><div class="action-sub">4 activos</div></div>
+          </div>
+        </div>
+
+        <div class="admin-section">
+          <div class="admin-section-title">Accesos recientes</div>
+          <div class="recent-list">
+            <div class="recent-item"><div class="recent-dot ok"></div><div class="recent-item-info"><h5>Julian Mahecha · #00847</h5><p>Ingreso · Portería Norte</p></div><div class="recent-item-time">08:47</div></div>
+            <div class="recent-item"><div class="recent-dot ok"></div><div class="recent-item-info"><h5>Ana Torres · #00612</h5><p>Ingreso · Portería Sur</p></div><div class="recent-item-time">08:52</div></div>
+            <div class="recent-item"><div class="recent-dot ko"></div><div class="recent-item-info"><h5>Luis García · #00311</h5><p>Denegado · QR expirado</p></div><div class="recent-item-time">09:05</div></div>
+            <div class="recent-item"><div class="recent-dot ok"></div><div class="recent-item-info"><h5>María Ospina · #00724</h5><p>Ingreso · Portería Norte</p></div><div class="recent-item-time">09:18</div></div>
+          </div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /device -->
+
+<script src="app.js"></script>
+</body>
+</html>
